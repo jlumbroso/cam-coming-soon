@@ -14,6 +14,13 @@
     <meta property="og:image" content="https://jlumbroso.github.io/penn-engineering-web-assets/shields/PE-logo-RGB-stacked-tight-crop-sm.png">
     <meta name="twitter:card" content="summary">
 
+    <!-- Favicon. Interim mark: the page's own "spark of ingenuity" glyph on
+         Penn blue, inlined as a data URI so it costs no request and cannot 404.
+         Caught by Playwright, 2026-08-24: /favicon.ico was returning 404, which
+         shows as a blank tab icon in exactly the place this link gets shared —
+         a recruitment email. Replace when CAM has its own mark. -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23011F5B'/%3E%3Cpath d='M18 5 L8 18h7l-1 9 10-13h-7l1-9z' fill='none' stroke='%2363C7FF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
     <!-- Penn Engineering Brand Assets -->
     <link rel="stylesheet" href="https://jlumbroso.github.io/penn-engineering-web-assets/fonts.css">
 
@@ -151,9 +158,20 @@
 
         /* Penn Engineering Logo */
         .logo {
+            /* BUG FIX (Portico 5, 2026-08-24), seen in Playwright, not in code:
+               the logo is an <img> (inline) and .coming-soon-badge is
+               inline-block, so the badge flowed onto the logo's line and sat
+               tucked into its lower-right corner — reading as if "COMING SOON"
+               were part of the Penn Engineering lockup. Making the logo a
+               centred block puts the badge back on its own line, which is the
+               layout the template's own screenshot shows.
+               Regression check: any change here should be re-screenshotted at
+               1440px and 390px before pushing (see docs/SCREENSHOT-POLICY.md
+               in cam-hq) — this class of bug is invisible in the markup. */
+            display: block;
+            margin: 0 auto 40px;
             width: 200px;
             height: auto;
-            margin-bottom: 40px;
             opacity: 0;
             animation: fadeInDown 0.8s ease forwards;
         }
