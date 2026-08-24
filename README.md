@@ -1,6 +1,6 @@
 # cam-coming-soon — the holding page for CAM
 
-The **coming-soon page** for *Computationally Assisted Metacognition* (CAM) — CIS 7000-008, University of Pennsylvania, Fall 2026, taught by Jérémie Lumbroso, Practice Assistant Professor of Computer and Information Science.
+The **coming-soon page** for *Computationally Assisted Metacognition* (CAM) — CIS 7000, University of Pennsylvania, Fall 2026, taught by Jérémie Lumbroso, Practice Assistant Professor of Computer and Information Science.
 
 A single `index.html`, no build step, official Penn Engineering branding served from [`penn-engineering-web-assets`](https://jlumbroso.github.io/penn-engineering-web-assets/). Adapted from [`jlumbroso/penn-engineering-coming-soon`](https://github.com/jlumbroso/penn-engineering-coming-soon).
 
@@ -23,7 +23,7 @@ Everything is a CSS variable at the top of `index.html`, under `CUSTOMIZATION SE
 
 ```css
 --course-name:      "Computationally Assisted Metacognition";
---course-code:      "CIS 7000-008 · Fall 2026";
+--course-code:      "CIS 7000 · Fall 2026";
 --timeline:         "Details announced when the course is listed";
 --contact-email:    "lumbroso@seas.upenn.edu";
 --show-tagline:     none;   /* deliberate — see below */
@@ -38,7 +38,7 @@ The course description, the learning outcomes, and the course's tagline exist, b
 
 ### One thing to watch
 
-The section number `CIS 7000-008` is the department's stated intent as of 2026-08-24 ("I think we would be listing the course at CIS 7000-008"), not a confirmed registrar record. If it changes, it is a one-line edit here.
+The **section number is deliberately not on the page.** The department's stated intent as of 2026-08-24 is `CIS 7000-008` — but the wording was "I *think* we would be listing the course at CIS 7000-008", and this page publishes to the world what an email merely quotes back to one person. The page's design rule: *nothing on it can be contradicted by a decision the department has not yet made.* Restore `-008` in `--course-code` once the registrar record exists.
 
 ## Provenance
 
