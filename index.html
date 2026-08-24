@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computationally Assisted Metacognition — CIS 7000-008 — Penn Engineering</title>
+    <meta name="description" content="Computationally Assisted Metacognition (CIS 7000-008), a seminar at the University of Pennsylvania, Fall 2026. Taught by Jérémie Lumbroso.">
+
+    <!-- Link unfurl (recruitment email, Slack, iMessage) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metacognition.computer/">
+    <meta property="og:title" content="Computationally Assisted Metacognition — CIS 7000-008">
+    <meta property="og:description" content="A seminar at the University of Pennsylvania, Fall 2026. Details announced when the course is listed.">
+    <meta property="og:image" content="https://jlumbroso.github.io/penn-engineering-web-assets/shields/PE-logo-RGB-stacked-tight-crop-sm.png">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Penn Engineering Brand Assets -->
+    <link rel="stylesheet" href="https://jlumbroso.github.io/penn-engineering-web-assets/fonts.css">
+
+    <!--
+      Stage 0 of the CAM rendering layer (ADR-0002, cam-hq).
+      Adapted from github.com/jlumbroso/penn-engineering-coming-soon.
+      Deliberately withheld here: the course description, the five learning
+      outcomes, and the "thinking better, with AI, across domains" tagline.
+      Those live in cam-hq (his-eyes-only) and have not been approved to cross
+      to a public surface — see ADR-0002 §Consequences, "the outward gate".
+      They arrive with the full site (jlumbroso/cam-website), not before.
+    -->
+
+    <style>
+        /* ============================================
+           CUSTOMIZATION SECTION - Edit these variables
+           ============================================ */
+        :root {
+            /* Display Modes (set to 'block' to show, 'none' to hide) */
+            --show-tagline: none;         /* withheld — see comment above */
+            --show-description: none;     /* withheld — see comment above */
+            --show-timeline: block;
+            --show-contact: block;
+
+            /* Content Customization */
+            --course-name: "Computationally Assisted Metacognition";
+            --course-code: "CIS 7000-008 · Fall 2026";
+            --tagline: "";
+            --description: "";
+            --timeline: "Details announced when the course is listed";
+            --contact-email: "lumbroso@seas.upenn.edu";
+            --contact-name: "Jérémie Lumbroso, Practice Assistant Professor of Computer and Information Science";
+
+            /* Visual Customization */
+            --background-visual: url('https://jlumbroso.github.io/penn-engineering-web-assets/visuals/blue/eniac.png');
+            --visual-opacity: 0.05;
+            --animation-enabled: 1; /* 1 for enabled, 0 for disabled */
+        }
+
+        /* ============================================
+           BASE STYLES - Do not modify
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "TWK Everett", Arial, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #011F5B;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Background visual overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background-image: var(--background-visual);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: var(--visual-opacity);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animated gradient background */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg,
+                rgba(1, 31, 91, 0.02) 0%,
+                rgba(153, 0, 0, 0.02) 50%,
+                rgba(99, 199, 255, 0.02) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow:
+                0 20px 40px rgba(1, 31, 91, 0.1),
+                0 0 0 1px rgba(1, 31, 91, 0.05);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 25px 50px rgba(1, 31, 91, 0.15),
+                0 0 0 1px rgba(1, 31, 91, 0.05);
+        }
+
+        /* Penn Engineering Logo */
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon-badge {
+            display: inline-block;
+            background: #990000;
+            color: white;
+            font-family: "Pitch Sans", monospace;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease 0.2s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coming-soon-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .coming-soon-badge:hover::before {
+            left: 100%;
+        }
+
+        /* Course Title */
+        .course-title {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 700;
+            color: #011F5B;
+            margin-bottom: 10px;
+            line-height: 1.1;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+        }
+
+        .course-title::before {
+            content: var(--course-name);
+        }
+
+        /* Course Code */
+        .course-code {
+            font-family: "Pitch Sans", monospace;
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 500;
+            color: #63C7FF;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .course-code::before {
+            content: var(--course-code);
+        }
+
+        /* Tagline */
+        .tagline {
+            display: var(--show-tagline);
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 300;
+            color: #990000;
+            margin-bottom: 30px;
+            line-height: 1.3;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.5s forwards;
+        }
+
+        .tagline::before {
+            content: var(--tagline);
+        }
+
+        /* Description */
+        .description {
+            display: var(--show-description);
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2D2926;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            text-align: left;
+            padding: 20px;
+            background: rgba(242, 242, 242, 0.5);
+            border-left: 4px solid #63C7FF;
+            border-radius: 8px;
+        }
+
+        .description::before {
+            content: var(--description);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: var(--show-timeline);
+            font-family: "Pitch Sans", monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: #011F5B;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid #011F5B;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.7s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline::before {
+            content: "📅 " var(--timeline);
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #011F5B 0%, #63C7FF 50%, #990000 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: expandWidth 2s ease 1.2s forwards;
+        }
+
+        /* Contact */
+        .contact {
+            display: var(--show-contact);
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(1, 31, 91, 0.1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+
+        .contact-label {
+            font-family: "Pitch Sans", monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2D2926;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            font-size: 16px;
+            color: #011F5B;
+            line-height: 1.5;
+        }
+
+        .contact-info a {
+            color: #63C7FF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #990000;
+        }
+
+        .contact-name::before {
+            content: var(--contact-name);
+        }
+
+        .contact-email::before {
+            content: var(--contact-email);
+        }
+
+        /* Lightning decoration */
+        .lightning {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+            animation: pulse 3s ease infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes expandWidth {
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.1;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            .logo {
+                width: 150px;
+            }
+
+            .description {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .logo {
+                width: 120px;
+                margin-bottom: 30px;
+            }
+
+            .coming-soon-badge {
+                font-size: 12px;
+                padding: 6px 16px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body::before,
+            body::after {
+                display: none;
+            }
+
+            .container {
+                box-shadow: none;
+                border: 1px solid #011F5B;
+            }
+
+            * {
+                animation: none !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Penn Engineering Logo -->
+        <img src="https://jlumbroso.github.io/penn-engineering-web-assets/shields/PE-logo-RGB-stacked-tight-crop-sm.png"
+             alt="Penn Engineering"
+             class="logo">
+
+        <!-- Coming Soon Badge -->
+        <div class="coming-soon-badge">Coming Soon</div>
+
+        <!-- Course Title -->
+        <h1 class="course-title"></h1>
+
+        <!-- Course Code -->
+        <div class="course-code"></div>
+
+        <!-- Tagline -->
+        <p class="tagline"></p>
+
+        <!-- Description -->
+        <div class="description"></div>
+
+        <!-- Timeline -->
+        <div class="timeline"></div>
+
+        <!-- Contact Information -->
+        <div class="contact">
+            <div class="contact-label">For More Information</div>
+            <div class="contact-info">
+                <span class="contact-name"></span> •
+                <a href="mailto:lumbroso@seas.upenn.edu" class="contact-email"></a>
+            </div>
+        </div>
+
+        <!-- Lightning decoration (spark of ingenuity) -->
+        <svg class="lightning" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#63C7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+
+    <script>
+        // Set the mailto link from the --contact-email CSS variable.
+        //
+        // FIX (Portico 5, 2026-08-24) — upstream bug in
+        // jlumbroso/penn-engineering-coming-soon: the original read
+        //   emailLink.parentElement.tagName === 'A'
+        // but `.contact-email` IS the <a>; its parent is the .contact-info
+        // <div>, so the guard never passed and every deployed page shipped a
+        // dead `href="mailto:"`. On a page whose only call to action is the
+        // contact link, that is the one failure that matters. Set the href on
+        // the anchor itself, and keep a hard-coded mailto in the markup so the
+        // link works even with JS disabled.
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailLink = document.querySelector('.contact-email');
+            if (!emailLink) return;
+            const email = getComputedStyle(emailLink, '::before').content.replace(/['"]/g, '').trim();
+            if (email) emailLink.href = 'mailto:' + email;
+        });
+    </script>
+</body>
+</html>
