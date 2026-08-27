@@ -59,7 +59,7 @@
                his answered card (founding seed QST-LISTING-TEXT): "Yes, this is
                exactly right." Verbatim; do not paraphrase without a new card. */
             --description: "Computationally Assisted Metacognition (CAM) — thinking better, with AI, across domains. A seminar on using frontier language models as instruments of reflection: students iterate live with models, read their reasoning traces, and turn their own thinking into something they can inspect, critique, and revise. Sessions are hands-on and discussion-driven, built around exercises drawn from real human–AI collaborations. A technical spine for CIS majors and graduate students (a conceptual track for others): how frontier models are built and run; running local models; API calls against local and cloud models; building and deploying MCP servers and tools; how context is composed and retrieved. Culminates in a build — a harnessed personal agent each student constructs and deploys. Open to graduate and undergraduate students by application; waitlist.";
-            --timeline: "Thursdays 5:15–8:14 PM · Towne 217 · first meeting Aug 27";
+            --timeline: "Thursdays 5:15–8:14 PM · Towne 217 · first meeting Aug 27";
             --contact-email: "lumbroso@seas.upenn.edu";
             --contact-name: "Jérémie Lumbroso, Practice Assistant Professor of Computer and Information Science";
 
@@ -76,6 +76,18 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* BUG FIX (Portico 5, 2026-08-27), caught at 390px after the scroll fix:
+           the .lightning decorative SVG is positioned right:-50px outside
+           .container, so on a narrow viewport the DOCUMENT became horizontally
+           scrollable (scrollWidth 428 vs 390). The template's original
+           `overflow: hidden` on body had masked this; removing it to restore
+           vertical scrolling exposed it.
+           Clipping on <html> as well as body is what actually stops the
+           document scrolling — overflow-x on body alone does not. */
+        html {
+            overflow-x: hidden;
         }
 
         body {
@@ -481,6 +493,16 @@
         }
 
         @media (max-width: 480px) {
+            /* bring the decorative glyph inside the card — at this width a
+               50px overhang is both clipped and the source of the horizontal
+               overflow above */
+            .lightning {
+                top: -20px;
+                right: -10px;
+                width: 64px;
+                height: 64px;
+            }
+
             .container {
                 padding: 30px 20px;
                 border-radius: 15px;
