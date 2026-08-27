@@ -85,17 +85,43 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            /* BUG FIX (Portico 5, 2026-08-27), reported by Jérémie: the page
+               could not scroll and the card was cut off about two-thirds down.
+
+               The template shipped `overflow: hidden` + `justify-content:
+               center`, which is fine only while the content is SHORTER than the
+               viewport — which it was, until the approved course description
+               landed and made the card taller than 100vh. Then two separate
+               things clipped it: `overflow: hidden` killed the scrollbar, and
+               flex `justify-content: center` on an overflowing column pushes the
+               top of the item out of the scrollable area entirely.
+
+               Fix is both halves. `overflow-y: auto` restores scrolling;
+               `overflow-x: hidden` keeps the decorative background from adding a
+               horizontal bar. Centering moves from `justify-content: center` to
+               `margin: auto 0` on .container — auto margins centre when there is
+               room and collapse gracefully when there is not, instead of
+               clipping. This is the standard safe-centering pattern.
+
+               Regression check: any change to the card's height or to this block
+               must be re-checked at 1440x900 AND 390x844 with the description
+               VISIBLE (--show-description: block). The bug was invisible for
+               three days because the description was gated off. */
+            justify-content: flex-start;
             color: #011F5B;
             position: relative;
-            overflow: hidden;
-            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 40px 20px;
         }
 
         /* Background visual overlay */
         body::before {
             content: '';
-            position: absolute;
+            /* fixed, not absolute: now that the body scrolls, an absolutely
+               positioned decorative layer would be centred on the DOCUMENT and
+               drift off-screen. Fixed keeps it viewport-anchored. */
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -119,7 +145,7 @@
 
         body::after {
             content: '';
-            position: absolute;
+            position: fixed;   /* see body::before */
             top: 0;
             left: 0;
             right: 0;
@@ -138,6 +164,7 @@
         .container {
             position: relative;
             z-index: 2;
+            margin: auto 0;          /* safe vertical centering — see body */
             max-width: 800px;
             width: 100%;
             text-align: center;
