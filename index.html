@@ -41,7 +41,7 @@
         :root {
             /* Display Modes (set to 'block' to show, 'none' to hide) */
             --show-tagline: none;         /* withheld — see comment above */
-            --show-description: none;     /* withheld — see comment above */
+            --show-description: block;    /* OUTWARD GATE OPENED 2026-08-27 */
             --show-timeline: block;
             --show-contact: block;
 
@@ -55,7 +55,10 @@
                not yet made.) Source of record: cam-hq ADR-0001. */
             --course-code: "CIS 7000-008 · CRN 92792 · Fall 2026";
             --tagline: "";
-            --description: "";
+            /* The approved v0 description. Crossed the outward gate 2026-08-27 on
+               his answered card (founding seed QST-LISTING-TEXT): "Yes, this is
+               exactly right." Verbatim; do not paraphrase without a new card. */
+            --description: "Computationally Assisted Metacognition (CAM) — thinking better, with AI, across domains. A seminar on using frontier language models as instruments of reflection: students iterate live with models, read their reasoning traces, and turn their own thinking into something they can inspect, critique, and revise. Sessions are hands-on and discussion-driven, built around exercises drawn from real human–AI collaborations. A technical spine for CIS majors and graduate students (a conceptual track for others): how frontier models are built and run; running local models; API calls against local and cloud models; building and deploying MCP servers and tools; how context is composed and retrieved. Culminates in a build — a harnessed personal agent each student constructs and deploys. Open to graduate and undergraduate students by application; waitlist.";
             --timeline: "Thursdays 5:15–8:14 PM · Towne 217 · first meeting Aug 27";
             --contact-email: "lumbroso@seas.upenn.edu";
             --contact-name: "Jérémie Lumbroso, Practice Assistant Professor of Computer and Information Science";
@@ -311,6 +314,34 @@
             animation: expandWidth 2s ease 1.2s forwards;
         }
 
+        /* Apply block — real markup, because the CSS `content:` variables
+           cannot carry a link and the enrollment path must be clickable.
+           Waitlisty is the ONLY route in (permit-only from the start); never
+           add a second path here. */
+        .apply {
+            margin-top: 8px;
+            padding: 20px;
+            background: rgba(1, 31, 91, 0.04);
+            border-left: 4px solid #990000;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2D2926;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.75s forwards;
+        }
+        .apply strong { color: #011F5B; }
+        .apply a { color: #011F5B; font-weight: 600; }
+        .apply a:hover { color: #990000; }
+        .apply .apply-help {
+            display: block;
+            margin-top: 8px;
+            font-family: "Pitch Sans", monospace;
+            font-size: 13px;
+            color: #2D2926;
+        }
+
         /* Contact */
         .contact {
             display: var(--show-contact);
@@ -490,6 +521,15 @@
 
         <!-- Timeline -->
         <div class="timeline"></div>
+
+        <!-- How to enrol. Waitlisty is the only path in. -->
+        <div class="apply">
+            <strong>Enrollment is permit-only, by application.</strong>
+            Twenty seats. Apply through Penn CIS Waitlisty —
+            <a href="https://apps.cis.upenn.edu/waitlist/student/dashboard">apps.cis.upenn.edu/waitlist</a>
+            — which is the only route into the course.
+            <span class="apply-help">New to Waitlisty? <a href="https://advising.cis.upenn.edu/waitlist/">advising.cis.upenn.edu/waitlist</a></span>
+        </div>
 
         <!-- Contact Information -->
         <div class="contact">
